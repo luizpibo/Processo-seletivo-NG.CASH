@@ -10,23 +10,24 @@ generator client {
   provider = "prisma-client-js"
 }
 
+
+model Users {
+  id    String     @default(uuid()) @id
+  username String  @unique 
+  email String @unique
+  password  String
+  enabled Boolean @default(false)
+  account Accounts @relation(fields: [accountId], references: [id])
+  accountId String @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 model Accounts {
   id String @default(uuid()) @id @unique
   balance BigInt
   user Users?
 }
-
-model Users {
-  id    String     @default(uuid()) @id
-  username String  @unique 
-  password  String
-  email String @unique
-  enabled Boolean @default(false)
-  account Accounts @relation(fields: [accountId], references: [id])
-  accountId String @unique
-}
-
-
 
 model Transactions {
   id Int @default(autoincrement()) @id
