@@ -20,7 +20,7 @@ services:
       - postgres
 
   postgres:
-    image: postgres
+    image: postgres:alpine
     container_name: postgres
     networks:
       - api
