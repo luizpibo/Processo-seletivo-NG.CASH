@@ -2,9 +2,7 @@
 CREATE TABLE "Users" (
     "id" TEXT NOT NULL,
     "username" TEXT NOT NULL,
-    "email" TEXT NOT NULL,
     "password" TEXT NOT NULL,
-    "enabled" BOOLEAN NOT NULL DEFAULT false,
     "accountId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -15,7 +13,7 @@ CREATE TABLE "Users" (
 -- CreateTable
 CREATE TABLE "Accounts" (
     "id" TEXT NOT NULL,
-    "balance" BIGINT NOT NULL,
+    "balance" BIGINT DEFAULT 100,
 
     CONSTRAINT "Accounts_pkey" PRIMARY KEY ("id")
 );
@@ -33,9 +31,6 @@ CREATE TABLE "Transactions" (
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Users_username_key" ON "Users"("username");
-
--- CreateIndex
-CREATE UNIQUE INDEX "Users_email_key" ON "Users"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Users_accountId_key" ON "Users"("accountId");

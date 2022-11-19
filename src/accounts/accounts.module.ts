@@ -6,10 +6,11 @@ import { APP_GUARD } from '@nestjs/core';
 
 @Module({
   controllers: [AccountsController],
-  providers: [AccountsService, ,{
+  providers: [AccountsService,{
     provide: APP_GUARD,
     useClass: JwtAuthGuard
-  }]
+  }],
+  exports: [AccountsService],
 })
 
 export class AccountsModule {}

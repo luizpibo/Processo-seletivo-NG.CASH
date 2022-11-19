@@ -3,6 +3,15 @@ import { PrismaService } from 'src/prisma.service';
 import { PasswordProvider } from 'src/providers/password';
 import { Users, Prisma } from "@prisma/client";
 
+interface createUserRequestDTO {
+  username: string,
+  password: string
+}
+
+interface createUserResponseDTO {
+  username: string,
+}
+
 @Injectable()
 export class UsersService {
   constructor(
@@ -17,16 +26,8 @@ export class UsersService {
     delete user.password;
     return user;
   }
-  
-  async create(data: Prisma.UsersCreateInput): Promise<Users> {
-    const userWithEmailExists = await this.prisma.users.findUnique({
-      where: {email: data.email},
-    })
 
-    if(userWithEmailExists){
-      throw new HttpException("There is already an account registered with this email", HttpStatus.CONFLICT);
-    }
-
+  async create(data: createUserRequestDTO): Promise<createUserResponseDTO> {
     const userWithUsernameExists = await this.prisma.users.findUnique({
       where: {username: data.username},
     })
@@ -36,11 +37,15 @@ export class UsersService {
     }
 
     const passwordHashed = await this.passwordProvider.hashPassword(data.password)
-
     const user = await this.prisma.users.create({
       data: {
-        ...data,
+        username: data.username,
         password: passwordHashed,
+        account: {
+          create: {
+            balance: 100
+          }
+        }
       },
     });
 
