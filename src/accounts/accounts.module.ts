@@ -11,4 +11,5 @@ import { APP_GUARD } from '@nestjs/core';
     useClass: JwtAuthGuard
   }]
 })
+
 export class AccountsModule {}
