@@ -61,12 +61,13 @@ export class UsersService {
     return user;
   }
 
-  async findOne(username: string): Promise<Users | undefined> {
-    return this.prisma.users.findFirst({
+  async findByUsername(username: string): Promise<Users | undefined> {
+    const prismaReturn = await this.prisma.users.findUnique({
       where: {
         username,
       },
     });
+    return prismaReturn
   }
 
   async findAll(): Promise<Users[] | undefined> {
